@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Tables from './pages/Tables'
 import TableView from './pages/TableView'
@@ -16,6 +15,7 @@ import Connections from './pages/Connections'
 export default function App() {
   return (
     <Routes>
+            <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Tables />} />
         <Route path="tables" element={<Tables />} />
@@ -29,7 +29,6 @@ export default function App() {
         <Route path="migration" element={<Migration />} />
         <Route path="policies" element={<Policies />} />
         <Route path="connections" element={<Connections />} />
-      </Route>
-    </Routes>
-  )
-}
+                </Route>
+      </Routes>
+                  </Router>
