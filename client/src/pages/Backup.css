@@ -1,0 +1,129 @@
+.backup-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+}
+
+.backup-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.backup-section h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.backup-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.backup-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+
+.backup-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.backup-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.backup-card p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.schedule-info {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.schedule-info p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.cron-code pre {
+  display: block;
+  background: var(--surface);
+  padding: 16px;
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+.restore-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.restore-area .file-label {
+  background: var(--danger);
+  color: white;
+}
+
+.restore-area .file-label:hover {
+  background: #dc2626;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  background: var(--surface-hover);
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.file-label:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.file-hint {
+  color: var(--warning);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--success);
+  color: var(--success);
+  padding: 16px;
+  border-radius: var(--radius);
+}
