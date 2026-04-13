@@ -20,7 +20,7 @@ export default function SchemaVisualizer() {
     try {
       setLoading(true)
       const res = await fetch(`${API_BASE}/api/schema`)
-      if (!res.ok) throw new Error('Failed to load schema')
+      if (!res.ok) throw new Error('Не удалось загрузить схему')
       const data = await res.json()
       setSchema(data)
     } catch (err) {
@@ -35,12 +35,45 @@ export default function SchemaVisualizer() {
     const row = Math.floor(index / cols)
     const col = index % cols
     return {
-      x: 100 + col * 280,
-      y: 100 + row * 220
+      x: 100 + col * 300,
+      y: 100 + row * 240
     }
   }
 
-  if (loading) return <div className="loading">Loading schema...</div>
+  // Функция для отрисовки линий связей FK
+  function drawRelationshipLine(from, to, fromTable, toTable) {
+    const fromCenter = { x: from.x + 130, y: from.y + 100 }
+    const toCenter = { x: to.x + 130, y: to.y + 100 }
+    
+    // Используем кривую Безье для красивых линий
+    const dx = toCenter.x - fromCenter.x
+    const dy = toCenter.y - fromCenter.y
+    const dist = Math.sqrt(dx*dx + dy*dy)
+    
+    // Контрольные точки для кривой
+    const controlOffset = Math.min(dist * 0.3, 50)
+    const cp1x = fromCenter.x + (dx > 0 ? controlOffset : -controlOffset)
+    const cp1y = fromCenter.y
+    const cp2x = toCenter.x - (dx > 0 ? controlOffset : -controlOffset)
+    const cp2y = toCenter.y
+
+    const pathData = `M ${fromCenter.x},${fromCenter.y} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${toCenter.x},${toCenter.y}`
+    
+    return (
+      <g key={`${fromTable}-${toTable}`}>
+        <path
+          d={pathData}
+          stroke="#6366f1"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.6"
+          markerEnd="url(#arrowhead)"
+        />
+      </g>
+    )
+  }
+
+  if (loading) return <div className="loading">Загрузка схемы...</div>
   if (error) return <div className="error">{error}</div>
 
   const tableColumns = {}
@@ -52,7 +85,9 @@ export default function SchemaVisualizer() {
   return (
     <div className="schema-container">
       <div className="schema-toolbar">
-        <span className="schema-info">{schema.tables.length} tables, {schema.relationships.length} relationships</span>
+        <div className="schema-info">
+          🗃️ {schema.tables.length} таблиц, {schema.relationships.length} связей
+        </div>
         <div className="zoom-controls">
           <button onClick={() => setZoom(z => Math.max(0.5, z - 0.1))}>-</button>
           <span>{Math.round(zoom * 100)}%</span>
@@ -65,47 +100,44 @@ export default function SchemaVisualizer() {
           className="schema-svg"
           style={{ transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)` }}
         >
-          {/* Relationships */}
+          {/* Стрелка для линий связей */}
+          <defs>
+            <marker
+              id="arrowhead"
+              markerWidth="10"
+              markerHeight="10"
+              refX="9"
+              refY="3"
+              orient="auto"
+            >
+              <polygon points="0 0, 10 3, 0 6" fill="#6366f1" />
+            </marker>
+          </defs>
+
+          {/* Линии связей FK */}
           {schema.relationships.map((rel, i) => {
             const fromIdx = schema.tables.indexOf(rel.from_table)
             const toIdx = schema.tables.indexOf(rel.to_table)
+            if (fromIdx === -1 || toIdx === -1) return null
+            
             const from = getTablePosition(fromIdx, schema.tables.length)
             const to = getTablePosition(toIdx, schema.tables.length)
-            
-            return (
-              <g key={i}>
-                <path
-                  d={`M ${from.x + 200} ${from.y + 60} 
-                      C ${from.x + 300} ${from.y + 60},
-                        ${to.x - 100} ${to.y + 60},
-                        ${to.x} ${to.y + 60}`}
-                  className="relationship-line"
-                  markerEnd="url(#arrowhead)"
-                />
-              </g>
-            )
+            return drawRelationshipLine(from, to, rel.from_table, rel.to_table)
           })}
-          
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent)" />
-            </marker>
-          </defs>
         </svg>
 
-        {/* Table Cards */}
+        {/* Карточки таблиц */}
         <div 
-          className="tables-container"
-          style={{ transform: `scale(${zoom})` }}
+          className="tables-layer"
+          style={{ transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)` }}
         >
           {schema.tables.map((table, idx) => {
             const pos = getTablePosition(idx, schema.tables.length)
             const cols = tableColumns[table] || []
-            
             return (
               <div
                 key={table}
-                className={`table-card ${selectedTable === table ? 'selected' : ''}`}
+                className="schema-table"
                 style={{ left: pos.x, top: pos.y }}
                 onClick={() => setSelectedTable(selectedTable === table ? null : table)}
               >
@@ -116,15 +148,13 @@ export default function SchemaVisualizer() {
                 <div className="table-columns">
                   {cols.slice(0, 5).map(col => (
                     <div key={col.column_name} className="column-row">
-                      <span className="col-name">
-                        {col.is_primary_key && <span className="pk-badge">PK</span>}
-                        {col.column_name}
-                      </span>
+                      {col.is_primary_key && <span className="pk-badge">PK</span>}
+                      <span className="col-name">{col.column_name}</span>
                       <span className="col-type">{col.data_type}</span>
                     </div>
                   ))}
                   {cols.length > 5 && (
-                    <div className="more-columns">+{cols.length - 5} more</div>
+                    <div className="more-cols">+{cols.length - 5} еще...</div>
                   )}
                 </div>
               </div>
@@ -134,22 +164,20 @@ export default function SchemaVisualizer() {
       </div>
 
       {selectedTable && (
-        <div className="table-detail">
-          <div className="detail-header">
+        <div className="table-detail-modal">
+          <div className="modal-content">
             <h3>{selectedTable}</h3>
             <button className="close-btn" onClick={() => setSelectedTable(null)}>×</button>
-          </div>
-          <div className="detail-columns">
-            {(tableColumns[selectedTable] || []).map(col => (
-              <div key={col.column_name} className="detail-row">
-                <span className="col-name">
-                  {col.is_primary_key && <span className="badge pk">PK</span>}
-                  {col.column_name}
-                </span>
-                <span className="col-type">{col.data_type}</span>
-                <span className="col-nullable">{col.is_nullable}</span>
-              </div>
-            ))}
+            <div className="detail-columns">
+              {(tableColumns[selectedTable] || []).map(col => (
+                <div key={col.column_name} className="detail-col-row">
+                  {col.is_primary_key && <span className="pk-badge">PK</span>}
+                  <span className="col-name">{col.column_name}</span>
+                  <span className="col-type">{col.data_type}</span>
+                  <span className="col-nullable">{col.is_nullable}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
