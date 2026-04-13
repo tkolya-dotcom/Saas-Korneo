@@ -1,0 +1,94 @@
+.api-view {
+  padding: 24px;
+  color: #e2e8f0;
+}
+
+.api-header h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.api-header p {
+  color: #94a3b8;
+}
+
+.info-card {
+  background: #1e1e2d;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.info-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.info-row .label {
+  color: #94a3b8;
+  width: 100px;
+}
+
+.endpoint-item {
+  background: #1e1e2d;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.endpoint-item:hover {
+  border-color: #6366f1;
+  background: #252538;
+}
+
+.ep-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.method {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.method.get { background: #1e3a8a; color: #60a5fa; }
+.method.post { background: #064e3b; color: #34d399; }
+
+.path {
+  font-family: monospace;
+  color: #f8fafc;
+}
+
+.desc {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.copied-label {
+  font-size: 12px;
+  color: #22c55e;
+}
+
+.status-online {
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-online::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+}
