@@ -33,7 +33,7 @@ export default function Backup() {
 
   return (
     <div style={{padding: '24px'}}>
-      <h1 style={{fontSize: '24px', fontWeight: '700', marginBottom: '24px'}}>Backup</h1>
+      <h1 style={{fontSize: '24px', fontWeight: '700', marginBottom: '24px'}}>Резервное копирование</h1>
       <div style={{background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '24px', maxWidth: '500px'}}>
         <div style={{marginBottom: '16px'}}>
             <label style={{display: "block", marginBottom: "8px", color: "var(--text-secondary)"}}>Название резервной копии</label>
@@ -43,7 +43,7 @@ export default function Backup() {
         {error && <div className={styles.error} style={{marginBottom: '16px'}}>{error}</div>}
         <button onClick={createBackup} disabled={loading}
           style={{background: 'var(--accent)', color: 'white', border: 'none', padding: '10px 24px', borderRadius: 'var(--radius)', fontWeight: '500', cursor: 'pointer'}}>
-          {loading ? 'Creating...' : 'Download Backup'}
+          {loading ? 'Создание...' : 'Скачать резервную копиюю'}
         </button>
       </div>
     </div>
