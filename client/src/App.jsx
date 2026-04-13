@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
-import Dashboard from './pages/Dashboard'
 import Tables from './pages/Tables'
 import TableView from './pages/TableView'
 import TableEdit from './pages/TableEdit'
