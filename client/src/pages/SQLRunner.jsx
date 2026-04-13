@@ -29,7 +29,7 @@ export default function SQLRunner() {
       const data = await res.json()
       
       if (!res.ok) {
-        throw new Error(data.error || 'Query failed')
+        throw new Error(data.error || 'Ошибка выполнения запроса')
       }
       
       setResult(data)
@@ -50,13 +50,13 @@ export default function SQLRunner() {
     <div className="sql-runner">
       <div className="sql-editor">
         <div className="editor-header">
-          <span>SQL Query</span>
+          <span>SQL Запрос</span>
           <button 
-            className="btn btn-primary" 
+            className="btn btn-primary"
             onClick={executeQuery}
             disabled={loading}
           >
-            {loading ? 'Running...' : 'Execute (F5)'}
+            {loading ? 'Выполнение...' : 'Выполнить (F5)'}
           </button>
         </div>
         <textarea
@@ -69,26 +69,25 @@ export default function SQLRunner() {
               executeQuery()
             }
           }}
-          placeholder="Enter SQL query..."
+          placeholder="Введите SQL запрос..."
           spellCheck={false}
         />
       </div>
 
       {error && (
         <div className="error-message">
-          <strong>Error:</strong> {error}
+          <strong>Ошибка:</strong> {error}
         </div>
       )}
 
       {result && (
         <div className="sql-result">
           <div className="result-header">
-            <span>Results</span>
+            <span>Результаты</span>
             <span className="result-info">
-              {result.rowCount} rows
+              {result.rowCount} строк
             </span>
           </div>
-          
           {result.rows.length > 0 ? (
             <div className="result-table-wrapper">
               <table className="result-table">
@@ -111,23 +110,26 @@ export default function SQLRunner() {
               </table>
             </div>
           ) : (
-            <div className="no-results">Query executed successfully. No rows returned.</div>
+            <div className="no-results">Запрос выполнен успешно. Нет данных для отображения.</div>
           )}
         </div>
       )}
 
       <div className="sql-help">
-        <h4>Quick Examples</h4>
+        <h4>Быстрые примеры</h4>
         <div className="examples">
-<button onClick={() => setQuery(EXAMPLE_TABLES)}>
-            List Tables
+          <button onClick={() => setQuery(EXAMPLE_TABLES)} title="Показать все таблицы в public schema">
+            📋 Список таблиц
           </button>
-          <button onClick={() => setQuery(EXAMPLE_COLUMNS)}>
-            List Columns
+          <button onClick={() => setQuery(EXAMPLE_COLUMNS)} title="Показать все колонки всех таблиц">
+            📊 Список колонок
           </button>
-          <button onClick={() => setQuery(EXAMPLE_SIZE)}>
-            DB Size
+          <button onClick={() => setQuery(EXAMPLE_SIZE)} title="Показать размер базы данных">
+            💾 Размер БД
           </button>
+        </div>
+        <div className="help-tip">
+          💡 <strong>Совет:</strong> Используйте F5 для быстрого выполнения запроса
         </div>
       </div>
     </div>
