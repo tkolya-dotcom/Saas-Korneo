@@ -173,7 +173,7 @@ export default function SchemaEditor() {
         </div>
       </div>
 
-      <divclassName="editor-content">
+      <div className="editor-content">
         <div className="editor-sidebar">
           <div className="sidebar-section">
             <div className="section-header">
@@ -393,7 +393,7 @@ export default function SchemaEditor() {
                                   </div>
                                   <div className="rel-arrow">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                      <pathd="M19 12H5"/>
+                                      <path d="M19 12H5"/>
                                       <path d="M12 19l-7-7 7-7"/>
                                     </svg>
                                   </div>

@@ -1,5 +1,5 @@
-п»їimport { useState } from 'react'
-import styles from './Dashboard.module.css'
+import { useState } from 'react'
+import './Backup.css'
 
 export default function Backup() {
   const [loading, setLoading] = useState(false)
@@ -33,17 +33,17 @@ export default function Backup() {
 
   return (
     <div style={{padding: '24px'}}>
-      <h1 style={{fontSize: '24px', fontWeight: '700', marginBottom: '24px'}}>Р РµР·РµСЂРІРЅРѕРµ РєРѕРїРёСЂРѕРІР°РЅРёРµ</h1>
+      <h1 style={{fontSize: '24px', fontWeight: '700', marginBottom: '24px'}}>Резервное копирование</h1>
       <div style={{background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '24px', maxWidth: '500px'}}>
         <div style={{marginBottom: '16px'}}>
-            <label style={{display: "block", marginBottom: "8px", color: "var(--text-secondary)"}}>РќР°Р·РІР°РЅРёРµ СЂРµР·РµСЂРІРЅРѕР№ РєРѕРїРёРё</label>
+            <label style={{display: "block", marginBottom: "8px", color: "var(--text-secondary)"}}>Название резервной копии</label>
           <input value={name} onChange={e => setName(e.target.value)} placeholder="db"
             style={{width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '10px', color: 'var(--text)'}}/>
         </div>
-        {error && <div className={styles.error} style={{marginBottom: '16px'}}>{error}</div>}
+        {error && <div className={error-message} style={{marginBottom: '16px'}}>{error}</div>}
         <button onClick={createBackup} disabled={loading}
           style={{background: 'var(--accent)', color: 'white', border: 'none', padding: '10px 24px', borderRadius: 'var(--radius)', fontWeight: '500', cursor: 'pointer'}}>
-          {loading ? 'РЎРѕР·РґР°РЅРёРµ...' : 'РЎРєР°С‡Р°С‚СЊ СЂРµР·РµСЂРІРЅСѓСЋ РєРѕРїРёСЋСЋ'}
+          {loading ? 'Создание...' : 'Скачать резервную копиюю'}
         </button>
       </div>
     </div>

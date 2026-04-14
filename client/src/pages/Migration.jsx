@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { API_BASE } from '../App'
 import './Migration.css'
+
+const API_BASE = import.meta.env.VITE_API_BASE || ''
 
 export default function Migration() {
   const [supabaseUrl, setSupabaseUrl] = useState('https://jmxjbdnqnzkzxgsfywha.supabase.co')

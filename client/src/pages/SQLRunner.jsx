@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { API_BASE } from '../App'
 import './SQLRunner.css'
+
+const API_BASE = import.meta.env.VITE_API_BASE || ''
 
 const EXAMPLE_TABLES = "SELECT * FROM pg_tables WHERE schemaname = 'public';"
 const EXAMPLE_COLUMNS = "SELECT * FROM information_schema.columns WHERE table_schema = 'public' ORDER BY table_name, ordinal_position;"

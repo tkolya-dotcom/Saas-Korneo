@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { API_BASE } from '../App'
 import './Policies.css'
+
+const API_BASE = import.meta.env.VITE_API_BASE || ''
 
 export default function Policies() {
   const [tables, setTables] = useState([])
